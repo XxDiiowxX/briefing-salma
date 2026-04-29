@@ -1,61 +1,64 @@
 // ═══════════════════════════════════════════════════
-//  VERCEL API ROUTE — PROXY para o Google Apps Script
-//  Arquivo: /api/proxy.js  (na raiz do seu projeto)
+//  VERCEL API ROUTE — proxy.js
+//  Caminho: /api/proxy.js (na raiz do projeto)
 //
-//  Por que isso existe?
-//  O Google Apps Script bloqueia requisições diretas
-//  de outros domínios (CORS). Esta rota fica no mesmo
-//  domínio do HTML, então o browser não bloqueia.
+//  IMPORTANTE: usa module.exports (CommonJS)
+//  que é o padrão do Vercel sem package.json
 // ═══════════════════════════════════════════════════
 
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbwv4uvPuy68Owsg8dGUWPf7Vu9BmabyFgm6JdSRnJ_DtQvudojSjXUZztX4hca2PEUl/exec';
 
-export default async function handler(req, res) {
-  // Permite qualquer origem (mesmo domínio já resolve, mas boa prática)
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Preflight OPTIONS
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
   try {
-    let appsScriptResponse;
+    let response;
 
-    // ── GET: carregar rascunho ──────────────────────
     if (req.method === 'GET') {
       const params = new URLSearchParams(req.query).toString();
       const url = params ? `${APPS_SCRIPT_URL}?${params}` : APPS_SCRIPT_URL;
+      response = await fetch(url, { redirect: 'follow' });
 
-      appsScriptResponse = await fetch(url, {
-        method: 'GET',
-        redirect: 'follow',
-      });
-    }
+    } else if (req.method === 'POST') {
+      // req.body já vem parseado pelo Vercel quando Content-Type é application/json
+      const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
 
-    // ── POST: salvar rascunho ou enviar respostas ───
-    else if (req.method === 'POST') {
-      appsScriptResponse = await fetch(APPS_SCRIPT_URL, {
+      response = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(req.body),
+        body: body,
         redirect: 'follow',
       });
-    }
 
-    // Método não suportado
-    else {
+    } else {
       return res.status(405).json({ status: 'erro', msg: 'método não permitido' });
     }
 
-    const data = await appsScriptResponse.json();
-    return res.status(200).json(data);
+    // Lê a resposta como texto primeiro (Apps Script às vezes retorna HTML em caso de erro)
+    const text = await response.text();
+
+    try {
+      const data = JSON.parse(text);
+      return res.status(200).json(data);
+    } catch {
+      // Apps Script retornou algo que não é JSON (erro de autenticação, etc.)
+      console.error('Resposta não-JSON do Apps Script:', text.slice(0, 300));
+      return res.status(502).json({
+        status: 'erro',
+        msg: 'Apps Script retornou resposta inválida. Verifique se o script está implantado corretamente.',
+        detalhe: text.slice(0, 200)
+      });
+    }
 
   } catch (error) {
-    console.error('Erro no proxy:', error);
+    console.error('Erro no proxy:', error.message);
     return res.status(500).json({ status: 'erro', msg: error.message });
   }
-}
+};
