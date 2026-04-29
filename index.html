@@ -17,6 +17,22 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--cream);color:var(--text);font-size:15px;line-height:1.65}
 .page{max-width:780px;margin:0 auto;padding:56px 40px 100px}
 
+/* TELA DE IDENTIFICAÇÃO */
+.id-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+.id-card{background:var(--white);border:1px solid var(--gold-border);border-radius:12px;padding:48px 40px;max-width:480px;width:100%;text-align:center}
+.id-line{width:36px;height:1.5px;background:var(--gold);margin:0 auto 24px}
+.id-label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.id-title{font-family:var(--serif);font-size:32px;font-weight:500;color:var(--navy);margin-bottom:8px}
+.id-sub{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--muted);margin-bottom:32px}
+.id-field-label{font-size:12px;font-weight:500;color:var(--muted);text-align:left;display:block;margin-bottom:8px;letter-spacing:0.3px}
+.id-input{width:100%;border:1px solid var(--gold-border);border-radius:var(--radius);background:var(--cream);font-family:var(--sans);font-size:15px;font-weight:400;color:var(--text);padding:12px 16px;outline:none;transition:border-color 0.15s;margin-bottom:20px}
+.id-input:focus{border-color:var(--gold)}
+.id-btn{width:100%;background:var(--navy);color:white;border:none;border-radius:var(--radius);padding:14px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;letter-spacing:0.3px}
+.id-btn:hover{background:var(--navy-light)}
+.id-note{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6}
+
+/* FORMULÁRIO */
+.form-screen{display:none}
 .cover{text-align:center;padding:64px 0 72px;border-bottom:1px solid var(--gold-border-strong);margin-bottom:64px}
 .cover-line{width:40px;height:1.5px;background:var(--gold);margin:0 auto 28px}
 .cover-label{font-size:10px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -30,6 +46,7 @@ body{font-family:var(--sans);background:var(--cream);color:var(--text);font-size
 .save-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background 0.3s}
 .save-dot.saved{background:#5A9A5A}
 .save-dot.saving{background:var(--gold)}
+.save-dot.error{background:#c0392b}
 
 .progress-wrap{margin-bottom:48px}
 .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
@@ -58,7 +75,6 @@ body{font-family:var(--sans);background:var(--cream);color:var(--text);font-size
 textarea{display:block;width:calc(100% - 36px);min-height:96px;resize:vertical;border:1px solid var(--gold-border);border-radius:var(--radius);background:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;color:var(--text);line-height:1.65;padding:12px 14px;outline:none;transition:border-color 0.15s;margin-left:36px}
 textarea:focus{border-color:var(--gold)}
 textarea::placeholder{color:#B8B4A8;font-weight:300}
-
 .q-section{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin:36px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--light)}
 
 .bandeiras-grid{display:flex;flex-wrap:wrap;gap:8px;margin-left:36px;margin-bottom:12px}
@@ -89,10 +105,28 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
   .cover-name{font-size:36px}
   .toc-list{grid-template-columns:1fr}
   textarea,.bandeiras-grid{margin-left:0;width:100%}
+  .id-card{padding:36px 24px}
 }
 </style>
 </head>
 <body>
+
+<!-- TELA 1: IDENTIFICAÇÃO -->
+<div class="id-screen" id="idScreen">
+  <div class="id-card">
+    <div class="id-line"></div>
+    <div class="id-label">Briefing Estratégico</div>
+    <div class="id-title">Salma Bahia</div>
+    <div class="id-sub">Identidade, Gestão e Visão de Futuro</div>
+    <label class="id-field-label">Seu nome completo</label>
+    <input class="id-input" type="text" id="nomeInput" placeholder="Digite seu nome para começar..." autocomplete="name">
+    <button class="id-btn" onclick="iniciar()">Acessar formulário</button>
+    <p class="id-note">Seu progresso será salvo automaticamente.<br>Você pode continuar de qualquer dispositivo.</p>
+  </div>
+</div>
+
+<!-- TELA 2: FORMULÁRIO -->
+<div class="form-screen" id="formScreen">
 <div class="page">
 
   <div class="cover">
@@ -106,7 +140,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <div class="save-bar">
     <div class="save-dot saved" id="saveDot"></div>
-    <span id="saveText">Suas respostas são salvas automaticamente enquanto você digita</span>
+    <span id="saveText">Suas respostas são salvas automaticamente na nuvem</span>
   </div>
 
   <div class="progress-wrap">
@@ -132,10 +166,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 1 -->
   <div class="module" id="mod1">
-    <div class="module-header">
-      <div class="module-num">01</div>
-      <div><div class="module-tag">Identidade</div><div class="module-title">Quem sou eu</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">01</div><div><div class="module-tag">Identidade</div><div class="module-title">Quem sou eu</div></div></div>
     <div class="q-section">Essência e apresentação</div>
     <div class="q-block"><div class="q-header"><span class="q-num">1</span><span class="q-text">Como você gostaria de ser apresentada em uma frase — não o cargo, mas a pessoa?</span></div><textarea name="q1" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">2</span><span class="q-text">O que mais te define hoje: mulher, gestora, vice-prefeita, mãe, cristã ou liderança política? Por quê essa e não outra?</span></div><textarea name="q2" placeholder="Escreva livremente..."></textarea></div>
@@ -151,10 +182,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 2 -->
   <div class="module" id="mod2">
-    <div class="module-header">
-      <div class="module-num">02</div>
-      <div><div class="module-tag">Propósito e Visão</div><div class="module-title">O que acredito e defendo</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">02</div><div><div class="module-tag">Propósito e Visão</div><div class="module-title">O que acredito e defendo</div></div></div>
     <div class="q-section">Política como vocação</div>
     <div class="q-block"><div class="q-header"><span class="q-num">10</span><span class="q-text">O que a política significa para você, de verdade — não a resposta de palanque, mas o que você acredita genuinamente?</span></div><textarea name="q10" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">11</span><span class="q-text">Qual é o seu principal propósito na vida pública? O que te faz levantar para trabalhar num dia em que tudo está difícil?</span></div><textarea name="q11" placeholder="Escreva livremente..."></textarea></div>
@@ -170,10 +198,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 3 -->
   <div class="module" id="mod3">
-    <div class="module-header">
-      <div class="module-num">03</div>
-      <div><div class="module-tag">Comunicação e Imagem</div><div class="module-title">Como me comunico</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">03</div><div><div class="module-tag">Comunicação e Imagem</div><div class="module-title">Como me comunico</div></div></div>
     <div class="q-section">Tom e estilo</div>
     <div class="q-block"><div class="q-header"><span class="q-num">19</span><span class="q-text">Como você gosta de falar com o povo: mais firme, mais acolhedora, mais emocional ou mais direta? Você muda dependendo do público?</span></div><textarea name="q19" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">20</span><span class="q-text">Quais 3 a 5 palavras você sente que mais combinam com sua imagem pública?</span></div><textarea name="q20" placeholder="Ex: acolhedora, determinada, honesta..."></textarea></div>
@@ -189,10 +214,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 4 -->
   <div class="module" id="mod4">
-    <div class="module-header">
-      <div class="module-num">04</div>
-      <div><div class="module-tag">Gestão e Entregas</div><div class="module-title">Minha gestão e entregas</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">04</div><div><div class="module-tag">Gestão e Entregas</div><div class="module-title">Minha gestão e entregas</div></div></div>
     <div class="q-section">Atuação como vice-prefeita</div>
     <div class="q-block"><div class="q-header"><span class="q-num">28</span><span class="q-text">Para você, qual é o papel real de uma vice-prefeita — o que o cargo permite fazer que muita gente não enxerga?</span></div><textarea name="q28" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">29</span><span class="q-text">Em que momentos você sentiu que exerceu sua função com mais força e impacto?</span></div><textarea name="q29" placeholder="Escreva livremente..."></textarea></div>
@@ -214,10 +236,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 5 -->
   <div class="module" id="mod5">
-    <div class="module-header">
-      <div class="module-num">05</div>
-      <div><div class="module-tag">Proximidade com o Povo</div><div class="module-title">Minha relação com o povo</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">05</div><div><div class="module-tag">Proximidade com o Povo</div><div class="module-title">Minha relação com o povo</div></div></div>
     <div class="q-section">Quando alguém pede ajuda</div>
     <div class="q-block"><div class="q-header"><span class="q-num">42</span><span class="q-text">Quando alguém te para na rua com um problema municipal — uma vaga em creche, uma rua sem asfalto, um encaminhamento de saúde — o que você faz? Como é na prática?</span></div><textarea name="q42" placeholder="Descreva como você age nessas situações..." style="min-height:120px"></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">43</span><span class="q-text">Você tem alguma estrutura no seu gabinete dedicada ao atendimento direto ao cidadão? Como ela funciona?</span></div><textarea name="q43" placeholder="Escreva livremente..."></textarea></div>
@@ -232,10 +251,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 6 -->
   <div class="module" id="mod6">
-    <div class="module-header">
-      <div class="module-num">06</div>
-      <div><div class="module-tag">Candidatura</div><div class="module-title">Minha candidatura</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">06</div><div><div class="module-tag">Candidatura</div><div class="module-title">Minha candidatura</div></div></div>
     <div class="q-block"><div class="q-header"><span class="q-num">50</span><span class="q-text">Como você descreveria sua relação com a gestão municipal hoje — em termos de autonomia e espaço para agir?</span></div><textarea name="q50" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">51</span><span class="q-text">Se você tivesse autonomia total de gestão, o que faria de diferente ou com mais força?</span></div><textarea name="q51" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">52</span><span class="q-text">Como você pretende construir uma candidatura com identidade própria mantendo o respeito ao mandato atual?</span></div><textarea name="q52" placeholder="Escreva livremente..."></textarea></div>
@@ -245,10 +261,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 
   <!-- MÓDULO 7 -->
   <div class="module" id="mod7">
-    <div class="module-header">
-      <div class="module-num">07</div>
-      <div><div class="module-tag">Posicionamento Público</div><div class="module-title">Minhas posições públicas</div></div>
-    </div>
+    <div class="module-header"><div class="module-num">07</div><div><div class="module-tag">Posicionamento Público</div><div class="module-title">Minhas posições públicas</div></div></div>
     <div class="q-section">Espectro e identidade</div>
     <div class="q-block"><div class="q-header"><span class="q-num">55</span><span class="q-text">Você prefere se posicionar de forma clara em pautas ideológicas ou manter um discurso mais neutro e institucional?</span></div><textarea name="q55" placeholder="Escreva livremente..."></textarea></div>
     <div class="q-block"><div class="q-header"><span class="q-num">56</span><span class="q-text">Você se identifica mais com direita, centro-direita, centro ou prefere não se rotular publicamente? Por quê?</span></div><textarea name="q56" placeholder="Escreva livremente..."></textarea></div>
@@ -282,7 +295,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
   <div class="submit-area" id="submitArea">
     <div class="submit-title">Pronta para enviar?</div>
     <p class="submit-sub">Revise suas respostas e clique em enviar quando estiver satisfeita. Você pode voltar e editar qualquer resposta antes de enviar.</p>
-    <button class="btn-submit" id="btnSubmit" onclick="enviarFormulario()">Enviar respostas</button>
+    <button class="btn-submit" id="btnSubmit" onclick="enviar()">Enviar respostas</button>
     <p class="submit-feedback" id="submitFeedback"></p>
   </div>
 
@@ -298,105 +311,116 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
   </div>
 
 </div>
+</div>
+
 <script>
-// ══════════════════════════════════════════════
-//  COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT
-//  (instruções abaixo no passo a passo)
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwv4uvPuy68Owsg8dGUWPf7Vu9BmabyFgm6JdSRnJ_DtQvudojSjXUZztX4hca2PEUl/exec';
-// ══════════════════════════════════════════════
-
-const KEY = 'briefing_salma_v1';
 const modRanges = {1:[1,9],2:[10,18],3:[19,27],4:[28,41],5:[42,49],6:[50,54],7:[55,60]};
+let IDENTIFICADOR = '';
+let saveTimer;
 
-function salvar() {
-  const d = {};
-  document.querySelectorAll('textarea').forEach(t => { if(t.value) d[t.name]=t.value; });
-  document.querySelectorAll('input[type=checkbox]').forEach(c => { d[c.name]=c.checked; });
-  try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
-  const dot = document.getElementById('saveDot');
-  dot.className = 'save-dot saved';
-  document.getElementById('saveText').textContent =
-    'Salvo automaticamente — ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+// ── IDENTIFICAÇÃO ──────────────────────────────
+async function iniciar() {
+  const nome = document.getElementById('nomeInput').value.trim();
+  if (!nome) { document.getElementById('nomeInput').focus(); return; }
+  IDENTIFICADOR = nome.toLowerCase().replace(/\s+/g,'_');
+  document.getElementById('idScreen').style.display = 'none';
+  document.getElementById('formScreen').style.display = 'block';
+  await carregarRascunho();
+  atualizarProgresso();
+}
+document.getElementById('nomeInput').addEventListener('keydown', e => { if(e.key==='Enter') iniciar(); });
+
+// ── CARREGAR RASCUNHO DA NUVEM ──────────────────
+async function carregarRascunho() {
+  setSaveStatus('saving', 'Buscando seu progresso salvo...');
+  try {
+    const res = await fetch(SCRIPT_URL + '?identificador=' + encodeURIComponent(IDENTIFICADOR));
+    const json = await res.json();
+    if (json.status === 'ok' && json.data) {
+      const d = json.data;
+      document.querySelectorAll('textarea').forEach(t => { if(d[t.name]) t.value = d[t.name]; });
+      document.querySelectorAll('input[type=checkbox]').forEach(c => { if(d[c.name] === 'true' || d[c.name] === true) c.checked = true; });
+      setSaveStatus('saved', 'Progresso carregado — continue de onde parou');
+    } else {
+      setSaveStatus('saved', 'Suas respostas serão salvas automaticamente na nuvem');
+    }
+  } catch(e) {
+    setSaveStatus('saved', 'Suas respostas serão salvas automaticamente');
+  }
 }
 
-function carregar() {
+// ── SALVAR RASCUNHO NA NUVEM ───────────────────
+async function salvarRascunho() {
+  const payload = { action: 'salvar_rascunho', identificador: IDENTIFICADOR, timestamp: new Date().toISOString() };
+  document.querySelectorAll('textarea').forEach(t => { payload[t.name] = t.value; });
+  document.querySelectorAll('input[type=checkbox]').forEach(c => { payload[c.name] = String(c.checked); });
+  const bans = [];
+  document.querySelectorAll('input[type=checkbox]:checked').forEach(c => { bans.push(c.closest('.bandeira-chip').textContent.trim()); });
+  payload['bandeiras'] = bans.join(', ');
   try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return;
-    const d = JSON.parse(raw);
-    Object.entries(d).forEach(([k,v]) => {
-      const el = document.querySelector(`[name="${k}"]`);
-      if (!el) return;
-      el.type === 'checkbox' ? (el.checked = v) : (el.value = v);
-    });
-  } catch(e){}
+    await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    setSaveStatus('saved', 'Salvo na nuvem — ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    setSaveStatus('error', 'Erro ao salvar — verifique sua conexão');
+  }
+}
+
+// ── ENVIAR RESPOSTAS FINAIS ────────────────────
+async function enviar() {
+  const btn = document.getElementById('btnSubmit');
+  const fb  = document.getElementById('submitFeedback');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  fb.className = 'submit-feedback'; fb.textContent = 'Por favor aguarde...';
+
+  const payload = { action: 'enviar', identificador: IDENTIFICADOR, timestamp: new Date().toISOString() };
+  document.querySelectorAll('textarea').forEach(t => { payload[t.name] = t.value; });
+  const bans = [];
+  document.querySelectorAll('input[type=checkbox]:checked').forEach(c => { bans.push(c.closest('.bandeira-chip').textContent.trim()); });
+  payload['bandeiras'] = bans.join(', ');
+
+  try {
+    await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    document.getElementById('submitArea').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+  } catch(err) {
+    btn.disabled = false; btn.textContent = 'Enviar respostas';
+    fb.className = 'submit-feedback error';
+    fb.textContent = 'Erro ao enviar. Verifique sua conexão e tente novamente.';
+  }
+}
+
+// ── HELPERS ────────────────────────────────────
+function setSaveStatus(estado, texto) {
+  const dot = document.getElementById('saveDot');
+  dot.className = 'save-dot ' + estado;
+  document.getElementById('saveText').textContent = texto;
 }
 
 function atualizarProgresso() {
   const tas = document.querySelectorAll('textarea');
   let n = 0;
   tas.forEach(t => { if(t.value.trim().length > 5) n++; });
-  const pct = Math.round((n/60)*100);
-  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressFill').style.width = Math.round((n/60)*100)+'%';
   document.getElementById('progressCount').textContent = n+' de 60 perguntas respondidas';
   Object.entries(modRanges).forEach(([m,[ini,fim]]) => {
     let ok=0, tot=fim-ini+1;
-    for(let i=ini;i<=fim;i++){
-      const el=document.querySelector(`[name="q${i}"]`);
-      if(el && el.value.trim().length>5) ok++;
-    }
+    for(let i=ini;i<=fim;i++){const el=document.querySelector(`[name="q${i}"]`);if(el&&el.value.trim().length>5)ok++;}
     const chk=document.getElementById('chk'+m);
     if(chk) chk.className='toc-check'+(ok===tot?' done':'');
   });
 }
 
-let timer;
 function onInput() {
-  document.getElementById('saveDot').className='save-dot saving';
-  clearTimeout(timer);
-  timer = setTimeout(()=>{ salvar(); atualizarProgresso(); }, 800);
+  setSaveStatus('saving', 'Salvando...');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { salvarRascunho(); atualizarProgresso(); }, 1500);
 }
-document.querySelectorAll('textarea,input[type=checkbox]').forEach(el=>{
+
+document.querySelectorAll('textarea, input[type=checkbox]').forEach(el => {
   el.addEventListener('input', onInput);
   el.addEventListener('change', onInput);
 });
-
-async function enviarFormulario() {
-  const btn = document.getElementById('btnSubmit');
-  const fb  = document.getElementById('submitFeedback');
-
-  if (!SCRIPT_URL || SCRIPT_URL.trim() === '') {
-    fb.className='submit-feedback error';
-    fb.textContent='A URL do Google Apps Script ainda não foi configurada.';
-    return;
-  }
-
-  btn.disabled=true; btn.textContent='Enviando...';
-  fb.className='submit-feedback'; fb.textContent='Por favor aguarde...';
-
-  const payload = { timestamp: new Date().toISOString() };
-  document.querySelectorAll('textarea').forEach(t=>{ payload[t.name]=t.value; });
-  const bans=[];
-  document.querySelectorAll('input[type=checkbox]:checked').forEach(c=>{
-    bans.push(c.closest('.bandeira-chip').textContent.trim());
-  });
-  payload['bandeiras'] = bans.join(', ');
-
-  try {
-    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',
-      headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    document.getElementById('submitArea').style.display='none';
-    document.getElementById('successScreen').style.display='block';
-    try { localStorage.removeItem(KEY); } catch(e){}
-  } catch(err) {
-    btn.disabled=false; btn.textContent='Enviar respostas';
-    fb.className='submit-feedback error';
-    fb.textContent='Erro ao enviar. Verifique sua conexão e tente novamente.';
-  }
-}
-
-carregar();
-atualizarProgresso();
 </script>
 </body>
 </html>
