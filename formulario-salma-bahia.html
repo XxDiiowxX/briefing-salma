@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Salma Bahia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#9A7B3A;--gold-light:#F7F2E8;--gold-border:rgba(154,123,58,0.25);
+  --gold-border-strong:rgba(154,123,58,0.5);--navy:#1B2A4A;--navy-light:#243660;
+  --cream:#FDFBF7;--white:#FFFFFF;--text:#1E1E1E;--muted:#78787C;--light:#F2EFE8;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--radius:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--text);font-size:15px;line-height:1.65}
+.page{max-width:780px;margin:0 auto;padding:56px 40px 100px}
+
+.cover{text-align:center;padding:64px 0 72px;border-bottom:1px solid var(--gold-border-strong);margin-bottom:64px}
+.cover-line{width:40px;height:1.5px;background:var(--gold);margin:0 auto 28px}
+.cover-label{font-size:10px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.cover-name{font-family:var(--serif);font-size:52px;font-weight:500;color:var(--navy);line-height:1.05;margin-bottom:12px;letter-spacing:-0.5px}
+.cover-sub{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--muted);margin-bottom:32px;font-weight:400}
+.cover-intro{max-width:520px;margin:0 auto;font-size:14px;color:var(--muted);line-height:1.75;font-weight:300}
+.cover-count{display:inline-flex;align-items:center;gap:8px;margin-top:32px;font-size:12px;color:var(--gold);font-weight:500;letter-spacing:1px}
+.cover-count::before,.cover-count::after{content:'';display:block;width:24px;height:1px;background:var(--gold-border-strong)}
+
+.save-bar{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--gold-border);border-radius:var(--radius);padding:12px 18px;margin-bottom:40px;font-size:13px;color:var(--muted)}
+.save-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background 0.3s}
+.save-dot.saved{background:#5A9A5A}
+.save-dot.saving{background:var(--gold)}
+
+.progress-wrap{margin-bottom:48px}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
+.progress-bar{height:3px;background:var(--light);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s ease}
+
+.toc{background:var(--white);border:1px solid var(--gold-border);border-radius:var(--radius);padding:24px 28px;margin-bottom:56px}
+.toc-title{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.toc-list li a{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:13.5px;color:var(--text);font-weight:400;transition:color 0.15s}
+.toc-list li a:hover{color:var(--gold)}
+.toc-num{font-family:var(--serif);font-size:16px;color:var(--gold);font-weight:600;min-width:20px}
+.toc-check{margin-left:auto;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all 0.2s;flex-shrink:0}
+.toc-check.done{background:var(--gold);border-color:var(--gold);color:white}
+
+.module{margin-bottom:64px;scroll-margin-top:32px}
+.module-header{display:flex;align-items:flex-end;gap:20px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--gold-border-strong)}
+.module-num{font-family:var(--serif);font-size:64px;font-weight:600;color:var(--gold-light);line-height:1;letter-spacing:-3px;flex-shrink:0}
+.module-tag{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.module-title{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--navy);line-height:1.2}
+
+.q-block{margin-bottom:28px}
+.q-header{display:flex;gap:14px;align-items:baseline;margin-bottom:10px}
+.q-num{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--gold);min-width:22px;padding-top:2px}
+.q-text{font-size:15px;color:var(--text);font-weight:400;line-height:1.6}
+textarea{display:block;width:calc(100% - 36px);min-height:96px;resize:vertical;border:1px solid var(--gold-border);border-radius:var(--radius);background:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;color:var(--text);line-height:1.65;padding:12px 14px;outline:none;transition:border-color 0.15s;margin-left:36px}
+textarea:focus{border-color:var(--gold)}
+textarea::placeholder{color:#B8B4A8;font-weight:300}
+
+.q-section{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin:36px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--light)}
+
+.bandeiras-grid{display:flex;flex-wrap:wrap;gap:8px;margin-left:36px;margin-bottom:12px}
+.bandeira-chip{display:flex;align-items:center;gap:7px;background:var(--white);border:1px solid var(--gold-border);border-radius:20px;padding:5px 14px 5px 10px;cursor:pointer;font-size:13px;font-weight:400;color:var(--text);transition:border-color 0.15s,background 0.15s;user-select:none}
+.bandeira-chip:hover{border-color:var(--gold)}
+.bandeira-chip input[type="checkbox"]{width:14px;height:14px;accent-color:var(--gold);cursor:pointer;margin:0;flex-shrink:0}
+.bandeira-chip:has(input:checked){background:var(--gold-light);border-color:var(--gold);color:var(--navy);font-weight:500}
+
+.submit-area{background:var(--white);border:1px solid var(--gold-border);border-radius:var(--radius);padding:40px 32px;margin-top:56px;text-align:center}
+.submit-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--navy);margin-bottom:10px}
+.submit-sub{font-size:13.5px;color:var(--muted);margin-bottom:32px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto}
+.btn-submit{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:white;border:none;border-radius:var(--radius);padding:15px 40px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;letter-spacing:0.3px;transition:background 0.15s}
+.btn-submit:hover{background:var(--navy-light)}
+.btn-submit:disabled{background:#aaa;cursor:not-allowed}
+.submit-feedback{font-size:12.5px;color:var(--muted);margin-top:16px;min-height:20px}
+.submit-feedback.error{color:#c0392b}
+
+.success-screen{display:none;text-align:center;padding:64px 32px}
+.success-icon{width:60px;height:60px;border-radius:50%;background:var(--gold-light);border:1.5px solid var(--gold-border-strong);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:24px;color:var(--gold)}
+.success-title{font-family:var(--serif);font-size:32px;font-weight:500;color:var(--navy);margin-bottom:14px}
+.success-sub{font-size:14.5px;color:var(--muted);line-height:1.75;max-width:420px;margin:0 auto}
+
+.doc-footer{border-top:1px solid var(--gold-border);padding-top:24px;margin-top:80px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+.footer-brand{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--navy)}
+
+@media(max-width:600px){
+  .page{padding:36px 20px 80px}
+  .cover-name{font-size:36px}
+  .toc-list{grid-template-columns:1fr}
+  textarea,.bandeiras-grid{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cover">
+    <div class="cover-line"></div>
+    <div class="cover-label">Briefing Estratégico Político</div>
+    <div class="cover-name">Salma Bahia</div>
+    <div class="cover-sub">Identidade, Gestão e Visão de Futuro</div>
+    <p class="cover-intro">Este formulário é um espaço para você se expressar com liberdade. Não há respostas certas ou erradas. Quanto mais você falar de si mesma com autenticidade, melhor poderemos construir uma comunicação que realmente representa quem você é.</p>
+    <div class="cover-count">60 perguntas em 7 blocos</div>
+  </div>
+
+  <div class="save-bar">
+    <div class="save-dot saved" id="saveDot"></div>
+    <span id="saveText">Suas respostas são salvas automaticamente enquanto você digita</span>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progresso</span>
+      <span id="progressCount">0 de 60 perguntas respondidas</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Blocos do formulário</div>
+    <ul class="toc-list">
+      <li><a href="#mod1"><span class="toc-num">01</span> Quem sou eu <span class="toc-check" id="chk1">✓</span></a></li>
+      <li><a href="#mod2"><span class="toc-num">02</span> O que acredito e defendo <span class="toc-check" id="chk2">✓</span></a></li>
+      <li><a href="#mod3"><span class="toc-num">03</span> Como me comunico <span class="toc-check" id="chk3">✓</span></a></li>
+      <li><a href="#mod4"><span class="toc-num">04</span> Minha gestão e entregas <span class="toc-check" id="chk4">✓</span></a></li>
+      <li><a href="#mod5"><span class="toc-num">05</span> Minha relação com o povo <span class="toc-check" id="chk5">✓</span></a></li>
+      <li><a href="#mod6"><span class="toc-num">06</span> Minha candidatura <span class="toc-check" id="chk6">✓</span></a></li>
+      <li><a href="#mod7"><span class="toc-num">07</span> Minhas posições públicas <span class="toc-check" id="chk7">✓</span></a></li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 1 -->
+  <div class="module" id="mod1">
+    <div class="module-header">
+      <div class="module-num">01</div>
+      <div><div class="module-tag">Identidade</div><div class="module-title">Quem sou eu</div></div>
+    </div>
+    <div class="q-section">Essência e apresentação</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">1</span><span class="q-text">Como você gostaria de ser apresentada em uma frase — não o cargo, mas a pessoa?</span></div><textarea name="q1" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">2</span><span class="q-text">O que mais te define hoje: mulher, gestora, vice-prefeita, mãe, cristã ou liderança política? Por quê essa e não outra?</span></div><textarea name="q2" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">3</span><span class="q-text">Quais experiências da sua vida — antes da política — mais moldaram quem você é como gestora e como pessoa?</span></div><textarea name="q3" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">4</span><span class="q-text">Que momento da sua trajetória você considera o mais transformador — aquele que dividiu sua vida em antes e depois?</span></div><textarea name="q4" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">5</span><span class="q-text">O que o público ainda não sabe sobre você, mas deveria saber para te entender de verdade?</span></div><textarea name="q5" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Família e raízes</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">6</span><span class="q-text">Se você tivesse que definir sua família em uma palavra, qual seria — e o que essa palavra diz sobre quem você se tornou?</span></div><textarea name="q6" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">7</span><span class="q-text">Qual foi a maior lição que sua casa, seus filhos ou sua história pessoal te ensinaram sobre a vida pública?</span></div><textarea name="q7" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">8</span><span class="q-text">O que você nunca gostaria que a política ou a exposição pública mudassem em você?</span></div><textarea name="q8" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">9</span><span class="q-text">Quando você pensa no seu legado, o que quer que sua família sinta orgulho de dizer sobre você?</span></div><textarea name="q9" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 2 -->
+  <div class="module" id="mod2">
+    <div class="module-header">
+      <div class="module-num">02</div>
+      <div><div class="module-tag">Propósito e Visão</div><div class="module-title">O que acredito e defendo</div></div>
+    </div>
+    <div class="q-section">Política como vocação</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">10</span><span class="q-text">O que a política significa para você, de verdade — não a resposta de palanque, mas o que você acredita genuinamente?</span></div><textarea name="q10" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">11</span><span class="q-text">Qual é o seu principal propósito na vida pública? O que te faz levantar para trabalhar num dia em que tudo está difícil?</span></div><textarea name="q11" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">12</span><span class="q-text">O que você acredita que um político precisa ter para ser respeitado pelo povo — não admirado, mas respeitado?</span></div><textarea name="q12" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">13</span><span class="q-text">Que tipo de política você rejeita? O que te faz sentir vergonha alheia no que você vê por aí?</span></div><textarea name="q13" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Goiás e o Brasil</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">14</span><span class="q-text">O que Goiás representa para você? O que te prende ao estado além do cargo?</span></div><textarea name="q14" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">15</span><span class="q-text">Quais problemas do estado e do município mais te preocupam hoje?</span></div><textarea name="q15" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">16</span><span class="q-text">Como você imagina um Goiás mais justo e mais forte daqui a 10 anos? O que teria que mudar para chegar lá?</span></div><textarea name="q16" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">17</span><span class="q-text">Que bandeiras você quer defender publicamente, em nível estadual e federal, que ainda não estão aparecendo na sua comunicação?</span></div><textarea name="q17" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">18</span><span class="q-text">Qual legado você gostaria de construir — algo concreto que seu nome esteja associado daqui a 20 anos?</span></div><textarea name="q18" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 3 -->
+  <div class="module" id="mod3">
+    <div class="module-header">
+      <div class="module-num">03</div>
+      <div><div class="module-tag">Comunicação e Imagem</div><div class="module-title">Como me comunico</div></div>
+    </div>
+    <div class="q-section">Tom e estilo</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">19</span><span class="q-text">Como você gosta de falar com o povo: mais firme, mais acolhedora, mais emocional ou mais direta? Você muda dependendo do público?</span></div><textarea name="q19" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">20</span><span class="q-text">Quais 3 a 5 palavras você sente que mais combinam com sua imagem pública?</span></div><textarea name="q20" placeholder="Ex: acolhedora, determinada, honesta..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">21</span><span class="q-text">Quais palavras você jamais quer que usem para te descrever?</span></div><textarea name="q21" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">22</span><span class="q-text">O que você quer que as pessoas sintam quando te veem ou escutam?</span></div><textarea name="q22" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">23</span><span class="q-text">Você prefere uma comunicação mais popular e afetiva ou mais institucional e técnica? Ou sabe transitar entre as duas?</span></div><textarea name="q23" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Valores e limites públicos</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">24</span><span class="q-text">Quais valores guiam suas escolhas quando ninguém está olhando?</span></div><textarea name="q24" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">25</span><span class="q-text">O que você não abre mão mesmo sob pressão política intensa?</span></div><textarea name="q25" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">26</span><span class="q-text">Qual causa faz seus olhos brilharem mais quando você fala sobre ela?</span></div><textarea name="q26" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">27</span><span class="q-text">Se você pudesse deixar uma mensagem para Goiás inteiro — uma só frase que resumisse quem você é e o que veio fazer — qual seria?</span></div><textarea name="q27" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 4 -->
+  <div class="module" id="mod4">
+    <div class="module-header">
+      <div class="module-num">04</div>
+      <div><div class="module-tag">Gestão e Entregas</div><div class="module-title">Minha gestão e entregas</div></div>
+    </div>
+    <div class="q-section">Atuação como vice-prefeita</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">28</span><span class="q-text">Para você, qual é o papel real de uma vice-prefeita — o que o cargo permite fazer que muita gente não enxerga?</span></div><textarea name="q28" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">29</span><span class="q-text">Em que momentos você sentiu que exerceu sua função com mais força e impacto?</span></div><textarea name="q29" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">30</span><span class="q-text">O que você faz todo dia que a maioria das pessoas não vê, mas que é parte essencial do seu trabalho?</span></div><textarea name="q30" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">31</span><span class="q-text">O que mais te orgulha na sua atuação como vice — aquilo que te faz sentir que valeu a pena?</span></div><textarea name="q31" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">32</span><span class="q-text">Como você gostaria que a população enxergasse sua atuação como vice?</span></div><textarea name="q32" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Entregas da SECUT</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">33</span><span class="q-text">Quais são as principais entregas da SECUT que você considera seu legado mais concreto até agora?</span></div><textarea name="q33" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">34</span><span class="q-text">Qual projeto ou ação da SECUT mais te emocionou — aquele que te fez sentir que a política valia a pena?</span></div><textarea name="q34" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">35</span><span class="q-text">O que você aprendeu sobre a população trabalhando com cultura, esporte e turismo?</span></div><textarea name="q35" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">36</span><span class="q-text">Que resultado concreto você quer que as pessoas associem diretamente ao seu nome quando pensarem na SECUT?</span></div><textarea name="q36" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Como você lidera</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">37</span><span class="q-text">Como você define uma boa gestão — o que separa um gestor mediano de um que transforma?</span></div><textarea name="q37" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">38</span><span class="q-text">O que faz você confiar em uma equipe? E o que quebra essa confiança?</span></div><textarea name="q38" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">39</span><span class="q-text">Como você toma decisões difíceis — aquelas em que qualquer escolha tem um custo?</span></div><textarea name="q39" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">40</span><span class="q-text">Você se considera mais técnica, mais política ou mais intuitiva? Como cada uma dessas dimensões aparece no seu trabalho?</span></div><textarea name="q40" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">41</span><span class="q-text">O que é inegociável para você na hora de trabalhar — o que você não faz por nenhuma pressão?</span></div><textarea name="q41" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 5 -->
+  <div class="module" id="mod5">
+    <div class="module-header">
+      <div class="module-num">05</div>
+      <div><div class="module-tag">Proximidade com o Povo</div><div class="module-title">Minha relação com o povo</div></div>
+    </div>
+    <div class="q-section">Quando alguém pede ajuda</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">42</span><span class="q-text">Quando alguém te para na rua com um problema municipal — uma vaga em creche, uma rua sem asfalto, um encaminhamento de saúde — o que você faz? Como é na prática?</span></div><textarea name="q42" placeholder="Descreva como você age nessas situações..." style="min-height:120px"></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">43</span><span class="q-text">Você tem alguma estrutura no seu gabinete dedicada ao atendimento direto ao cidadão? Como ela funciona?</span></div><textarea name="q43" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">44</span><span class="q-text">Quais tipos de demanda você consegue resolver mais rapidamente? E quais são mais demoradas — por quê?</span></div><textarea name="q44" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">45</span><span class="q-text">Você já resolveu pessoalmente uma demanda que estava fora da sua alçada direta — que era de outra secretaria, mas você não desistiu? Conte como foi.</span></div><textarea name="q45" placeholder="Descreva um caso real..." style="min-height:120px"></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">46</span><span class="q-text">Quando você identifica que um problema está emperrado por burocracia ou desinteresse interno, o que você faz?</span></div><textarea name="q46" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Território e base</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">47</span><span class="q-text">Quais bairros, regiões ou comunidades têm mais identificação com você hoje?</span></div><textarea name="q47" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">48</span><span class="q-text">Você tem lideranças comunitárias, religiosas ou associativas que trabalham ativamente com você?</span></div><textarea name="q48" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">49</span><span class="q-text">Qual público ainda não te conhece bem, mas você acredita que seria seu eleitor natural se soubesse quem você é?</span></div><textarea name="q49" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 6 -->
+  <div class="module" id="mod6">
+    <div class="module-header">
+      <div class="module-num">06</div>
+      <div><div class="module-tag">Candidatura</div><div class="module-title">Minha candidatura</div></div>
+    </div>
+    <div class="q-block"><div class="q-header"><span class="q-num">50</span><span class="q-text">Como você descreveria sua relação com a gestão municipal hoje — em termos de autonomia e espaço para agir?</span></div><textarea name="q50" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">51</span><span class="q-text">Se você tivesse autonomia total de gestão, o que faria de diferente ou com mais força?</span></div><textarea name="q51" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">52</span><span class="q-text">Como você pretende construir uma candidatura com identidade própria mantendo o respeito ao mandato atual?</span></div><textarea name="q52" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">53</span><span class="q-text">Quais são seus limites: o que você não faria publicamente mesmo sob pressão política?</span></div><textarea name="q53" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">54</span><span class="q-text">Você já tem apoiadores e estrutura política que são exclusivamente seus — não compartilhados com a gestão atual?</span></div><textarea name="q54" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- MÓDULO 7 -->
+  <div class="module" id="mod7">
+    <div class="module-header">
+      <div class="module-num">07</div>
+      <div><div class="module-tag">Posicionamento Público</div><div class="module-title">Minhas posições públicas</div></div>
+    </div>
+    <div class="q-section">Espectro e identidade</div>
+    <div class="q-block"><div class="q-header"><span class="q-num">55</span><span class="q-text">Você prefere se posicionar de forma clara em pautas ideológicas ou manter um discurso mais neutro e institucional?</span></div><textarea name="q55" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">56</span><span class="q-text">Você se identifica mais com direita, centro-direita, centro ou prefere não se rotular publicamente? Por quê?</span></div><textarea name="q56" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-section">Bandeiras e pautas</div>
+    <div class="q-block">
+      <div class="q-header"><span class="q-num">57</span><span class="q-text">Quais bandeiras você defende com mais força? Marque todas que combinam com você:</span></div>
+      <div class="bandeiras-grid">
+        <label class="bandeira-chip"><input type="checkbox" name="b_familia"> Família</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_fe"> Fé e valores cristãos</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_autismo"> Autismo e inclusão</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_infancia"> Proteção à infância</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_vida"> Vida</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_seguranca"> Segurança pública</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_educacao"> Educação</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_saude"> Saúde</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_cultura"> Cultura</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_esporte"> Esporte</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_mulher"> Mulher</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_empreend"> Empreendedorismo</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_desenv"> Desenvolvimento regional</label>
+        <label class="bandeira-chip"><input type="checkbox" name="b_social"> Assistência social</label>
+      </div>
+      <textarea name="q57" placeholder="Explique por que essas bandeiras importam na sua trajetória..."></textarea>
+    </div>
+    <div class="q-block"><div class="q-header"><span class="q-num">58</span><span class="q-text">Em temas sensíveis como aborto, valores morais e costumes — qual é a sua posição pública?</span></div><textarea name="q58" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">59</span><span class="q-text">Há alguma pauta que você acredita profundamente, mas que ainda não está sendo explorada na sua comunicação?</span></div><textarea name="q59" placeholder="Escreva livremente..."></textarea></div>
+    <div class="q-block"><div class="q-header"><span class="q-num">60</span><span class="q-text">O que você defenderia mesmo que isso custasse votos — porque é certo, e não porque é conveniente?</span></div><textarea name="q60" placeholder="Escreva livremente..."></textarea></div>
+  </div>
+
+  <!-- ENVIO -->
+  <div class="submit-area" id="submitArea">
+    <div class="submit-title">Pronta para enviar?</div>
+    <p class="submit-sub">Revise suas respostas e clique em enviar quando estiver satisfeita. Você pode voltar e editar qualquer resposta antes de enviar.</p>
+    <button class="btn-submit" id="btnSubmit" onclick="enviarFormulario()">Enviar respostas</button>
+    <p class="submit-feedback" id="submitFeedback"></p>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Respostas enviadas!</div>
+    <p class="success-sub">Obrigada, Salma. Suas respostas foram recebidas com sucesso e já estão sendo analisadas pela equipe.</p>
+  </div>
+
+  <div class="doc-footer">
+    <div class="footer-brand">Salma Bahia</div>
+    <div>Briefing Estratégico — Uso interno</div>
+  </div>
+
+</div>
+<script>
+// ══════════════════════════════════════════════
+//  COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT
+//  (instruções abaixo no passo a passo)
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYAOAb8tKhDlYpFUwzx6Qj2j28HVLChXk8RoXYhRQzzjma6G93UztlAzLfIB25AIMp/exec';
+// ══════════════════════════════════════════════
+
+const KEY = 'briefing_salma_v1';
+const modRanges = {1:[1,9],2:[10,18],3:[19,27],4:[28,41],5:[42,49],6:[50,54],7:[55,60]};
+
+function salvar() {
+  const d = {};
+  document.querySelectorAll('textarea').forEach(t => { if(t.value) d[t.name]=t.value; });
+  document.querySelectorAll('input[type=checkbox]').forEach(c => { d[c.name]=c.checked; });
+  try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
+  const dot = document.getElementById('saveDot');
+  dot.className = 'save-dot saved';
+  document.getElementById('saveText').textContent =
+    'Salvo automaticamente — ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function carregar() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    Object.entries(d).forEach(([k,v]) => {
+      const el = document.querySelector(`[name="${k}"]`);
+      if (!el) return;
+      el.type === 'checkbox' ? (el.checked = v) : (el.value = v);
+    });
+  } catch(e){}
+}
+
+function atualizarProgresso() {
+  const tas = document.querySelectorAll('textarea');
+  let n = 0;
+  tas.forEach(t => { if(t.value.trim().length > 5) n++; });
+  const pct = Math.round((n/60)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressCount').textContent = n+' de 60 perguntas respondidas';
+  Object.entries(modRanges).forEach(([m,[ini,fim]]) => {
+    let ok=0, tot=fim-ini+1;
+    for(let i=ini;i<=fim;i++){
+      const el=document.querySelector(`[name="q${i}"]`);
+      if(el && el.value.trim().length>5) ok++;
+    }
+    const chk=document.getElementById('chk'+m);
+    if(chk) chk.className='toc-check'+(ok===tot?' done':'');
+  });
+}
+
+let timer;
+function onInput() {
+  document.getElementById('saveDot').className='save-dot saving';
+  clearTimeout(timer);
+  timer = setTimeout(()=>{ salvar(); atualizarProgresso(); }, 800);
+}
+document.querySelectorAll('textarea,input[type=checkbox]').forEach(el=>{
+  el.addEventListener('input', onInput);
+  el.addEventListener('change', onInput);
+});
+
+async function enviarFormulario() {
+  const btn = document.getElementById('btnSubmit');
+  const fb  = document.getElementById('submitFeedback');
+
+  if (SCRIPT_URL === 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
+    fb.className='submit-feedback error';
+    fb.textContent='A URL do Google Apps Script ainda não foi configurada.';
+    return;
+  }
+
+  btn.disabled=true; btn.textContent='Enviando...';
+  fb.className='submit-feedback'; fb.textContent='Por favor aguarde...';
+
+  const payload = { timestamp: new Date().toISOString() };
+  document.querySelectorAll('textarea').forEach(t=>{ payload[t.name]=t.value; });
+  const bans=[];
+  document.querySelectorAll('input[type=checkbox]:checked').forEach(c=>{
+    bans.push(c.closest('.bandeira-chip').textContent.trim());
+  });
+  payload['bandeiras'] = bans.join(', ');
+
+  try {
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    document.getElementById('submitArea').style.display='none';
+    document.getElementById('successScreen').style.display='block';
+    try { localStorage.removeItem(KEY); } catch(e){}
+  } catch(err) {
+    btn.disabled=false; btn.textContent='Enviar respostas';
+    fb.className='submit-feedback error';
+    fb.textContent='Erro ao enviar. Verifique sua conexão e tente novamente.';
+  }
+}
+
+carregar();
+atualizarProgresso();
+</script>
+</body>
+</html>
