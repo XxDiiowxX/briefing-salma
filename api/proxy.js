@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════
 
 const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbwv4uvPuy68Owsg8dGUWPf7Vu9BmabyFgm6JdSRnJ_DtQvudojSjXUZztX4hca2PEUl/exec';
+  'https://script.google.com/macros/s/AKfycbz0NG6lI1oZ_qIqHLrHvB2k9kgby6n6pyPCi3tXGRlI63S1muhg6X8gefviEfoRsII/exec';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
