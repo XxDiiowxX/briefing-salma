@@ -302,7 +302,7 @@ textarea::placeholder{color:#B8B4A8;font-weight:300}
 // ══════════════════════════════════════════════
 //  COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT
 //  (instruções abaixo no passo a passo)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYAOAb8tKhDlYpFUwzx6Qj2j28HVLChXk8RoXYhRQzzjma6G93UztlAzLfIB25AIMp/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwv4uvPuy68Owsg8dGUWPf7Vu9BmabyFgm6JdSRnJ_DtQvudojSjXUZztX4hca2PEUl/exec';
 // ══════════════════════════════════════════════
 
 const KEY = 'briefing_salma_v1';
@@ -365,7 +365,7 @@ async function enviarFormulario() {
   const btn = document.getElementById('btnSubmit');
   const fb  = document.getElementById('submitFeedback');
 
-  if (SCRIPT_URL === 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
+  if (!SCRIPT_URL || SCRIPT_URL.trim() === '') {
     fb.className='submit-feedback error';
     fb.textContent='A URL do Google Apps Script ainda não foi configurada.';
     return;
